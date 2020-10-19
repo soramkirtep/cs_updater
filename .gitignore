@@ -3,3 +3,4 @@
 /.env
 /test_list.py
 /test_versions.py
+__pycache__

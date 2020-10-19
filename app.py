@@ -1,41 +1,34 @@
-import psycopg2
-from os import listdir
-
-version = 490
-mypath = '.\\db_updates'
-
+import db_update
+import shutil
+import os
+import datetime
 
 
-def update_db(db,username, password ):
-    conn = None
-    updated_rows = 0
-    try:
-        conn = psycopg2.connect(database=db,user=username,password=password)
-        for filename in listdir(mypath):
-            if int(filename) > version:
-                with open('.\\db_updates\\'+filename, encoding='utf-8') as f:
-                    list_values = list(f.read().split('\n'))
-                    for values in list_values:
-                        # print(values)
-                        cur = conn.cursor()
-                        cur.execute(values)
-                        updated_rows = cur.rowcount
-                        conn.commit()
-                        cur.close()
-        
-    except (Exception, psycopg2.DatabaseError) as error:
-        with open('.\\error.log', mode='a', encoding='utf-8') as e:
-            e.write(values)
-            e.write(str(error))
-        print(error)
-    finally:
-        if conn is not None:
-            conn.close()
+this_date = datetime.date.today()
+# version = 487
+# mypath = '.\\db_updates'    
+# source_dir = '/path/to/source_folder'
+# target_dir = '/path/to/dest_folder'
+folders = ['Clubspire.ear', 'ovladani.sar', 'ovladaniVstupu.sar']
 
-    return updated_rows
+jboss_home = os.environ['JBOSS_HOME']
+path_to_folders = jboss_home + '\\server\\default\\deploy\\'
+
+backup_folder = jboss_home +'\\..\\Updates' + '\\' + str(this_date)
+if not os.path.exists(backup_folder):
+    os.mkdir(backup_folder)
 
 
-if __name__ == '__main__':
+folders_location = [path_to_folders+folder for folder in folders] 
+    
+# for item in folders_location:
+#     shutil.move(item, backup_folder)   
+
+print(backup_folder)
+print(folders_location)
+
+
+# if __name__ == '__main__':
     # 
-    result = update_db('kaplicka', 'postgres', 'postgres')
-    print(result)
+    # result = update_db('kaplicka', 'postgres', 'postgres')
+    # print(result)
