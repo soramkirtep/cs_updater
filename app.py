@@ -1,11 +1,8 @@
 import db_update
 import move_cs_folders
 
-
-move_cs_folders.move_to_backup()
-move_cs_folders.move_from_update()
-
-# if __name__ == '__main__':
-    # 
+if __name__ == '__main__':
+    # move_cs_folders.move_to_backup()
+    # move_cs_folders.move_from_update() 
     # result = update_db('kaplicka', 'postgres', 'postgres')
-    # print(result)
+    db_update.db_add_func('kaplicka', 'postgres', 'postgres')
