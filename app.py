@@ -13,20 +13,37 @@ folders = ['Clubspire.ear', 'ovladani.sar', 'ovladaniVstupu.sar']
 
 jboss_home = os.environ['JBOSS_HOME']
 path_to_folders = jboss_home + '\\server\\default\\deploy\\'
+update_path = '..\\update\\data\\jboss\\'
 
-backup_folder = jboss_home +'\\..\\Updates' + '\\' + str(this_date)
-if not os.path.exists(backup_folder):
-    os.mkdir(backup_folder)
+def move_to_backup():
+    try:
+        if not os.path.exists(jboss_home +'\\..\\Updates'):
+            os.mkdir(jboss_home +'\\..\\Updates')
+        if not os.path.exists(jboss_home +'\\..\\Updates' + '\\' + str(this_date)):
+            backup_folder = os.mkdir(jboss_home +'\\..\\Updates' + '\\' + str(this_date))
 
 
-folders_location = [path_to_folders+folder for folder in folders] 
-    
-# for item in folders_location:
-#     shutil.move(item, backup_folder)   
+        folders_location = [path_to_folders+folder for folder in folders] 
+            
+        for item in folders_location:
+            shutil.move(item, backup_folder)
 
-print(backup_folder)
-print(folders_location)
+    except(Exception) as error:
+        print(error)  
 
+# def move_from_update():
+#     try:
+#          folders_location = [update_path+folder for folder in folders] 
+            
+#         for item in folders_location:
+#             shutil.move(item, path_to_folders)
+
+#     except(Exception) as error:
+#         print(error)
+
+
+
+move_to_backup()
 
 # if __name__ == '__main__':
     # 
