@@ -1,0 +1,9 @@
+INSERT INTO role VALUES ('multisport-settings','aplikační klient - nastavení propojení se systémem MultiSport','Uživatel má oprávnění nastavovat propojení CLUBSPIRE se systémem MultiSport.')duplicate key value violates unique constraint "pk_id"
+DETAIL:  Key (id)=(multisport-settings) already exists.
+INSERT INTO role VALUES ('multisport-settings','aplikační klient - nastavení propojení se systémem MultiSport','Uživatel má oprávnění nastavovat propojení CLUBSPIRE se systémem MultiSport.')duplicate key value violates unique constraint "pk_id"
+DETAIL:  Key (id)=(multisport-settings) already exists.
+ALTER TABLE sport_kategorie ADD COLUMN multisportfacilityid textype "tex" does not exist
+LINE 1: ...ER TABLE sport_kategorie ADD COLUMN multisportfacilityid tex
+                                                                    ^
+INSERT INTO skupina_role VALUES ('multisport-settings','admins')duplicate key value violates unique constraint "pk_skupina_role"
+DETAIL:  Key (role, skupina)=(multisport-settings, admins) already exists.
