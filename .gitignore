@@ -1,7 +1,11 @@
 /already_updated
 /db_updates
 /db_updates_func
+/db_binary
 /.env
 /test_list.py
 /test_versions.py
 __pycache__
+main.conf
+main.log
+.pgpass

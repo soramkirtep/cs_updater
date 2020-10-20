@@ -1,11 +1,22 @@
 import psycopg2
 from os import listdir
+import subprocess
+import datetime
+import error_log
 
 db_updates_path = '.\\db_updates'
-db_updates_func = '.\\db_updates_func' 
-version = 487 
+db_updates_func = '.\\db_updates_func'
 
-def update_db(db,username, password):
+def backup(db, user, date, backup_path):
+    try:
+        subprocess.run("pg_dump -Fc -b --host=127.0.0.1 -U " + user + " bs  > " + backup_path + "\\" + str(date) + "\\" + str(date) + ".backup",shell=True)
+        return
+    except (Exception)as error:
+        error_log.error_logger('Error in db backup: ' + sys.exc_info()[0])
+
+
+
+def update_by_query(db, username, password, version):
     conn = None
     updated_rows = 0
     try:
@@ -33,7 +44,7 @@ def update_db(db,username, password):
     
     return updated_rows
 
-def db_add_func(db,username, password):
+def update_db_func(db,username, password):
     conn = None
     updated_rows = 0
     try:

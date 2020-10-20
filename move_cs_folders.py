@@ -1,30 +1,46 @@
 import shutil
 import os
-import datetime
+import error_log
 
-this_date = datetime.date.today()
-folders = ['Clubspire.ear', 'ovladani.sar', 'ovladaniVstupu.sar']
-
-jboss_home = os.environ['JBOSS_HOME']
-cs_server_old = jboss_home + '\\server\\default\\deploy\\'
-cs_server_new = '..\\update\\data\\jboss\\'
-old_files_path = [cs_server_old+folder for folder in folders]
-
-def move_to_backup():
+def move_to_backup(backup, date, old_files_path):
     try:
-        if not os.path.exists(jboss_home +'\\..\\Updates'):
-            os.mkdir(jboss_home +'\\..\\Updates')
-        if not os.path.exists(jboss_home +'\\..\\Updates' + '\\' + str(this_date)):
-            os.mkdir(jboss_home +'\\..\\Updates' + '\\' + str(this_date))    
+        if not os.path.exists(backup):
+            os.mkdir(backup)
+        if not os.path.exists(backup + '\\' + str(date)):
+            os.mkdir(backup + '\\' + str(date))    
         for item in old_files_path:
-            shutil.move(item, jboss_home +'\\..\\Updates' + '\\' + str(this_date))
+            shutil.move(item, backup + '\\' + str(date))
     except(Exception) as error:
         print(error) 
+        error_log.error_logger(error)
 
-def move_from_update():
+
+def move_from_update(new_server, folders, old_server):
     try:
-        folders_location = [cs_server_new+folder for folder in folders]   
+        folders_location = [new_server+folder for folder in folders]   
         for item in folders_location:
-            shutil.move(item, cs_server_old)
+            shutil.move(item, old_server)
     except(Exception) as error:
-        print(error)
+        print(error) 
+        error_log.error_logger(error)
+
+
+def move_old_client(old_client, backup, date, old_files_path):
+    try:
+        if not os.path.exists(backup):
+            os.mkdir(backup)
+        if not os.path.exists(backup + '\\' + str(date)):
+            os.mkdir(backup + '\\' + str(date))    
+        for item in old_files_path:
+            shutil.move(old_client, backup + '\\' + str(date))
+    except(Exception) as error:
+        print(error) 
+        error_log.error_logger(error)
+
+
+def move_new_client(new_client, jboss_home):
+    try:
+        shutil.move(new_client, jboss_home + '\\..\\')
+    except(Exception) as error:
+        print(error) 
+        error_log.error_logger(error)
