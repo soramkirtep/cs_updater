@@ -27,12 +27,12 @@ def update_by_query(db, username, password, version):
                     list_values = list(f.read().split('\n'))
                     # print(list_values)
                     for values in list_values:
-                        print(values)
-                        # cur = conn.cursor()
-                        # cur.execute(values)
-                        # updated_rows = cur.rowcount
-                        # conn.commit()
-                        # cur.close()         
+                        # print(values)
+                        cur = conn.cursor()
+                        cur.execute(values)
+                        updated_rows = cur.rowcount
+                        conn.commit()
+                        cur.close()         
     except (Exception, psycopg2.DatabaseError) as error:
         logging.exception('Postgres error: ')
         print(error)
@@ -50,12 +50,12 @@ def update_by_file(db,username, password, version):
             if int(filename) > int(version):
                 with open(db_updates_func + '\\' + filename, encoding='utf-8') as f:
                     values = f.read()
-                    print(values)
-                    # cur = conn.cursor()
-                    # cur.execute(values)
-                    # updated_rows = cur.rowcount
-                    # conn.commit()
-                    # cur.close()
+                    # print(values)
+                    cur = conn.cursor()
+                    cur.execute(values)
+                    updated_rows = cur.rowcount
+                    conn.commit()
+                    cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
         logging.exception('Postgres error: ')
         print(error)

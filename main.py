@@ -25,6 +25,7 @@ NEW_CLIENT = '..\\update\\data\\files\\client'
 
 FOLDERS = ['Clubspire.ear', 'ovladani.sar', 'ovladaniVstupu.sar']
 OLD_FILES_PATH = [CS_SERVER_OLD + folder for folder in FOLDERS]
+NEW_FILES_PATH = [CS_SERVER_NEW + folder for folder in FOLDERS]
 
 DB_NAME = conf.get('database', 'name')
 DB_USER = conf.get('database', 'user')
@@ -38,10 +39,11 @@ CONNECTION_LOOP2 = 0
 
 if __name__ == '__main__':
     try:
+# ok -->
         # logging.info("Stopping clubspire service and dependent services.")
         # status = service_handler.service_status(SERVICE)
         # if status == 4:
-        #     # Restart WC to run on http
+        #     # - Stop CS server
         #     service_handler.stop_service(SERVICE)
         # else:
         #     print(f'{SERVICE} is already stopped')
@@ -53,33 +55,45 @@ if __name__ == '__main__':
         # if not os.path.exists(CS_SERVER_BACKUP + '\\' + str(TODAY)):
         #     os.mkdir(CS_SERVER_BACKUP + '\\' + str(TODAY))    
         
-        # logging.info("Creating db backup")
-        # db_handler.backup(DB_NAME, DB_USER, TODAY, CS_SERVER_BACKUP)
+        # # logging.info("Creating db backup")
+        # # db_handler.backup(DB_NAME, DB_USER, TODAY, CS_SERVER_BACKUP)
 
-        # logging.info("Moving CS server to backup folder with actual date...")
+        # # - Moving folders from deploy to backup in Updates foder
+        # logging.info("Backuping CS server...")
         # move_cs_folders.move_to_backup(CS_SERVER_BACKUP, TODAY, OLD_FILES_PATH)
+        # logging.info("CS server backuped.")
+        
+        # # - Moving new folders from update folder to deploy folder
+        # logging.info("Updating CS server...")
+        # move_cs_folders.move_from_update(CS_SERVER_NEW, FOLDERS, CS_SERVER_OLD)
+        # logging.info("CS server updated.")
 
-        # logging.info("Updating cs server...")
-        # move_cs_folders.move_from_update(CS_SERVER_NEW, FOLDERS, CS_SERVER_OLD) 
-
+ 
+        # - Moving old CS client to backup
         # logging.info("Moving CS client to backup folder with actual date...")
-        # move_cs_folders.move_old_client(OLD_CLIENT, CS_SERVER_BACKUP, TODAY, OLD_FILES_PATH)
+        # move_cs_folders.move_old_client(OLD_CLIENT, CS_SERVER_BACKUP, TODAY)
+        # logging.info("CS client backuped.")
 
+        # - Updating CS client  
         # logging.info("Updating CS client...")
         # move_cs_folders.move_new_client(NEW_CLIENT, JBOSS_HOME)
+        # logging.info("CS client updated")
 
+
+        # - runs db create/update/alter/delete query from db_updates folder by version as a loop per line 
         # logging.info("Updating db with query by line...")
         # db_handler.update_by_query(DB_NAME, DB_USER, DB_PASSWORD, CS_VERSION)
-        # only printing into the console, change in the module
-
+        # logging.info("DB updated with query.")
+        
+        # - runs db function update/create query from db_updates_func folder by version as a loop per file
         # logging.info("Updating db with function by file...")
-        db_handler.update_by_file(DB_NAME, DB_USER, DB_PASSWORD, CS_VERSION)
-        # only printing into the console, change in the module
+        # db_handler.update_by_file(DB_NAME, DB_USER, DB_PASSWORD, CS_VERSION)
+        # logging.info("DB updated with functions.")
+# ok <--
 
+# Make binary update here !!!
 
-
-
-        # Checking clubspire if running.
+        # - Checking clubspire if running.
         # CLUBSPIRE_SERVICE = get_service('clubspire')
         # if service_status(CLUBSPIRE_SERVICE) == 1: 
         #     print("Clubspire is stopped, starting Clubspire...")
@@ -115,7 +129,7 @@ if __name__ == '__main__':
         #     CONNECTION_LOOP2 += 1
         #     print(datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S"))
         # print('Loop restarting clubspire ended successfully...')
-        # # Starting Webclient
+        # - Starting Webclient
         # start_service('clubspire-webclient')
         # print('All services are running properly.')
     except(Exception) as error:

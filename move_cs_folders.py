@@ -25,14 +25,13 @@ def move_from_update(new_server, folders, old_server):
         print(error)
 
 
-def move_old_client(old_client, backup, date, old_files_path):
+def move_old_client(old_client, backup, date):
     try:
         if not os.path.exists(backup):
             os.mkdir(backup)
         if not os.path.exists(backup + '\\' + str(date)):
             os.mkdir(backup + '\\' + str(date))    
-        for item in old_files_path:
-            shutil.move(old_client, backup + '\\' + str(date))
+        shutil.move(old_client, backup + '\\' + str(date))
     except(Exception) as error:
         logging.exception('Client migration to backup err: ')
         print(error)
