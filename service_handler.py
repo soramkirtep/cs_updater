@@ -16,8 +16,9 @@ def get_service(name):
       service_name = lookup_service.split()[1]
       service = service_name.split('\\')[0]
       return service
-  except WindowsError:
-      return None
+  except(Exception) as error:
+    logging.exception('Get service err: ')
+    print(error)
 
 def service_status(service):
   '''
@@ -49,8 +50,9 @@ def get_pid(process_name):
       return result
     else:
       print("There is not running any process with name " + process_name)
-  except WindowsError:
-    return None
+  except(Exception) as error:
+    logging.exception('Get PID err: ')
+    print(error)
 
 # Check connection on port
 def check_connection(process_id):
@@ -70,6 +72,7 @@ def check_connection(process_id):
     else:
       print('Communication was not established with clubspire process ' + process_id)
       return connection
-  except WindowsError:
-        return None
+  except(Exception) as error:
+    logging.exception('Check connection err: ')
+    print(error)
 

@@ -1,6 +1,6 @@
 import shutil
 import os
-import error_log
+import logging
 
 def move_to_backup(backup, date, old_files_path):
     try:
@@ -11,8 +11,8 @@ def move_to_backup(backup, date, old_files_path):
         for item in old_files_path:
             shutil.move(item, backup + '\\' + str(date))
     except(Exception) as error:
-        print(error) 
-        error_log.error_logger(error)
+        logging.exception('File migration to backup err: ')
+        print(error)
 
 
 def move_from_update(new_server, folders, old_server):
@@ -21,8 +21,8 @@ def move_from_update(new_server, folders, old_server):
         for item in folders_location:
             shutil.move(item, old_server)
     except(Exception) as error:
-        print(error) 
-        error_log.error_logger(error)
+        logging.exception('File migration from update err: ')
+        print(error)
 
 
 def move_old_client(old_client, backup, date, old_files_path):
@@ -34,13 +34,13 @@ def move_old_client(old_client, backup, date, old_files_path):
         for item in old_files_path:
             shutil.move(old_client, backup + '\\' + str(date))
     except(Exception) as error:
-        print(error) 
-        error_log.error_logger(error)
+        logging.exception('Client migration to backup err: ')
+        print(error)
 
 
 def move_new_client(new_client, jboss_home):
     try:
         shutil.move(new_client, jboss_home + '\\..\\')
     except(Exception) as error:
-        print(error) 
-        error_log.error_logger(error)
+        logging.exception('Client migration from update err: ')
+        print(error)

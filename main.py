@@ -7,7 +7,6 @@ import logging.config
 import datetime
 import os
 import sys
-import error_log
 
 
 logging.config.fileConfig("logging.conf")
@@ -68,10 +67,14 @@ if __name__ == '__main__':
 
         # logging.info("Updating CS client...")
         # move_cs_folders.move_new_client(NEW_CLIENT, JBOSS_HOME)
-# no ok
-        # values need to be assigned here before func.call
-        db_handler.update_by_query(DB_NAME, DB_USER, DB_PASSWORD, CS_VERSION)
-        # db_update.db_func(DB_NAME, DB_USER, DB_PASSWORD)
+
+        # logging.info("Updating db with query by line...")
+        # db_handler.update_by_query(DB_NAME, DB_USER, DB_PASSWORD, CS_VERSION)
+        # only printing into the console, change in the module
+
+        # logging.info("Updating db with function by file...")
+        db_handler.update_by_file(DB_NAME, DB_USER, DB_PASSWORD, CS_VERSION)
+        # only printing into the console, change in the module
 
 
 
@@ -116,5 +119,5 @@ if __name__ == '__main__':
         # start_service('clubspire-webclient')
         # print('All services are running properly.')
     except(Exception) as error:
-        print(error)
-        error_log.error_logger(error)   
+        logging.exception('Error in the main script occured!')
+        print(error)   
